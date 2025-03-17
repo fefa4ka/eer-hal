@@ -27,3 +27,6 @@ add_library(eer_hal STATIC ${PLATFORM_SOURCES})
 target_include_directories(
   eer_hal PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
                  ${CMAKE_CURRENT_SOURCE_DIR}/include/platforms/${EER_PLATFORM})
+
+# Add tests directory
+add_subdirectory(tests)
