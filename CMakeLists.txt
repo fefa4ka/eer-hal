@@ -11,7 +11,8 @@ endif()
 include(toolchain/generic-gcc-${EER_PLATFORM}.cmake)
 
 set(PLATFORM_SOURCES 
-src/platforms/${EER_PLATFORM}/gpio.c)
+src/platforms/${EER_PLATFORM}/gpio.c
+src/platforms/${EER_PLATFORM}/adc.c)
 
 # Create HAL library
 add_library(eer_hal STATIC ${PLATFORM_SOURCES})
