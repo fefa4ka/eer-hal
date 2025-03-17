@@ -9,15 +9,3 @@ target_include_directories(test_gpio PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/platforms/${EER_PLATFORM})
 
-# Create a custom target for running the tests
-add_custom_target(run_gpio_test
-    COMMAND avrdude -c ${PROG_TYPE} -p ${MCU} -U flash:w:test_gpio.hex
-    DEPENDS test_gpio
-    COMMENT "Uploading and running GPIO test"
-)
-
-# Create hex files for AVR
-add_custom_command(TARGET test_gpio POST_BUILD
-    COMMAND ${AVR_OBJCOPY} -O ihex -R .eeprom test_gpio test_gpio.hex
-    COMMENT "Creating HEX file for test_gpio"
-)
