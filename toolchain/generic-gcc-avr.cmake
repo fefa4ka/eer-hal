@@ -29,6 +29,12 @@ set(CMAKE_OSX_SYSROOT "" CACHE STRING "The product will be built against the hea
 set(_CMAKE_OSX_MACHINE "" CACHE INTERNAL "")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "")
 
+# Disable macOS-specific linker flags
+set(CMAKE_EXE_LINKER_FLAGS_INIT "")
+set(CMAKE_MODULE_LINKER_FLAGS_INIT "")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "")
+set(CMAKE_STATIC_LINKER_FLAGS_INIT "")
+
 set(AVR 1)
 
 # Builds compiler options
