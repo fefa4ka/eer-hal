@@ -1,4 +1,5 @@
 #include "platforms/avr/spi.h"
+#include "platforms/avr/gpio.h"
 #include "macros.h"
 #include <stddef.h>
 #include <avr/io.h>
