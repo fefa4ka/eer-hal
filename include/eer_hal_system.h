@@ -21,16 +21,6 @@ typedef enum {
 } eer_system_reset_type_t;
 
 /**
- * @brief System power modes
- */
-typedef enum {
-    EER_SYSTEM_POWER_RUN,      /*!< Normal run mode */
-    EER_SYSTEM_POWER_SLEEP,    /*!< Sleep mode */
-    EER_SYSTEM_POWER_DEEP_SLEEP, /*!< Deep sleep mode */
-    EER_SYSTEM_POWER_STANDBY   /*!< Standby mode */
-} eer_system_power_mode_t;
-
-/**
  * @brief System hardware abstraction layer interface
  * 
  * This structure provides a consistent interface for system control operations
@@ -67,13 +57,6 @@ typedef struct {
      * @return Status code indicating success or failure
      */
     eer_hal_status_t (*enable_interrupts)(void);
-    
-    /**
-     * @brief Set system power mode
-     * @param mode Power mode to set
-     * @return Status code indicating success or failure
-     */
-    eer_hal_status_t (*set_power_mode)(eer_system_power_mode_t mode);
     
     /**
      * @brief Delay execution for a specified number of milliseconds

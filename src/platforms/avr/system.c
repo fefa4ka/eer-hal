@@ -86,45 +86,6 @@ static eer_hal_status_t avr_system_enable_interrupts(void) {
     return EER_HAL_OK;
 }
 
-static eer_hal_status_t avr_system_set_power_mode(eer_system_power_mode_t mode) {
-    switch (mode) {
-        case EER_SYSTEM_POWER_RUN:
-            // Already in run mode, nothing to do
-            break;
-            
-        case EER_SYSTEM_POWER_SLEEP:
-            // Configure sleep mode as idle
-            set_sleep_mode(SLEEP_MODE_IDLE);
-            sleep_enable();
-            sei();
-            sleep_cpu();
-            sleep_disable();
-            break;
-            
-        case EER_SYSTEM_POWER_DEEP_SLEEP:
-            // Configure sleep mode as power-save
-            set_sleep_mode(SLEEP_MODE_PWR_SAVE);
-            sleep_enable();
-            sei();
-            sleep_cpu();
-            sleep_disable();
-            break;
-            
-        case EER_SYSTEM_POWER_STANDBY:
-            // Configure sleep mode as power-down
-            set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-            sleep_enable();
-            sei();
-            sleep_cpu();
-            sleep_disable();
-            break;
-            
-        default:
-            return EER_HAL_INVALID_PARAM;
-    }
-    
-    return EER_HAL_OK;
-}
 
 static eer_hal_status_t avr_system_delay_ms(uint32_t ms) {
     while (ms--) {
@@ -179,7 +140,6 @@ eer_system_handler_t eer_avr_system = {
     .reset = avr_system_reset,
     .disable_interrupts = avr_system_disable_interrupts,
     .enable_interrupts = avr_system_enable_interrupts,
-    .set_power_mode = avr_system_set_power_mode,
     .delay_ms = avr_system_delay_ms,
     .delay_us = avr_system_delay_us,
     .get_tick = avr_system_get_tick,

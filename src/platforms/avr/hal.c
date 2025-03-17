@@ -6,6 +6,7 @@
 #include "platforms/avr/i2c.h"
 #include "platforms/avr/timer.h"
 #include "platforms/avr/system.h"
+#include "platforms/avr/power.h"
 
 // Global HAL instance for AVR platform
 eer_hal_t eer_hal = {
@@ -15,5 +16,6 @@ eer_hal_t eer_hal = {
     .spi = &eer_avr_spi,
     .i2c = &eer_avr_i2c,
     .timer = &eer_avr_timer,
-    .system = &eer_avr_system
+    .system = &eer_avr_system,
+    .power = &eer_avr_power
 };

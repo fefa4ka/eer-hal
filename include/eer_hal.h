@@ -20,6 +20,7 @@ typedef struct {
 #include "eer_hal_i2c.h"
 #include "eer_hal_timer.h"
 #include "eer_hal_system.h"
+#include "eer_hal_power.h"
 
 // Master HAL structure that combines all peripherals
 typedef struct {
@@ -30,6 +31,7 @@ typedef struct {
     eer_i2c_handler_t*     i2c;
     eer_timer_handler_t*   timer;
     eer_system_handler_t*  system;
+    eer_power_handler_t*   power;
 } eer_hal_t;
 
 

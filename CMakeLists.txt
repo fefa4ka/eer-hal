@@ -18,6 +18,7 @@ src/platforms/${EER_PLATFORM}/timer.c
 src/platforms/${EER_PLATFORM}/spi.c
 src/platforms/${EER_PLATFORM}/i2c.c
 src/platforms/${EER_PLATFORM}/system.c
+src/platforms/${EER_PLATFORM}/power.c
 src/platforms/${EER_PLATFORM}/hal.c)
 
 # Create HAL library
