@@ -7,6 +7,9 @@ if(NOT DEFINED EER_PLATFORM)
   return()
 endif()
 
+# Prevent host system flags from being added
+set(CMAKE_SYSTEM_NAME Generic)
+
 # Platform-specific source files
 include(toolchain/generic-gcc-${EER_PLATFORM}.cmake)
 

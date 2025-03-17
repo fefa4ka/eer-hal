@@ -74,6 +74,10 @@ add_definitions(
 # mmcu MUST be passed to both the compiler and linker
 set(CMAKE_EXE_LINKER_FLAGS "-mmcu=${MCU}")
 
+# Override any platform-specific linker flags
+set(CMAKE_C_LINK_FLAGS "-mmcu=${MCU}")
+set(CMAKE_CXX_LINK_FLAGS "-mmcu=${MCU}")
+
 add_compile_options(
     -mmcu=${MCU} # MCU
     -std=gnu99 # C99 standard
