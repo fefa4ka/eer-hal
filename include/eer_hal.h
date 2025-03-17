@@ -1,0 +1,43 @@
+#pragma once
+
+#include <stdint.h>
+#include <stdbool.h>
+
+// Common types used across all platforms
+typedef void (*eer_callback_fn)(void* argument, void* trigger);
+
+typedef struct {
+    eer_callback_fn method;
+    void* argument;
+} eer_callback_t;
+
+
+// Include all peripheral interface definitions
+#include "eer_hal_gpio.h"
+#include "eer_hal_adc.h"
+#include "eer_hal_uart.h"
+#include "eer_hal_spi.h"
+#include "eer_hal_timer.h"
+
+// Master HAL structure that combines all peripherals
+typedef struct {
+    eer_gpio_handler_t*  gpio;
+    eer_adc_handler_t*   adc;
+    eer_uart_handler_t*  uart;
+    eer_spi_handler_t*   spi;
+    eer_timer_handler_t* timer;
+    
+    // Platform initialization
+    void (*init)(void);
+    void (*deinit)(void);
+    
+    // System control
+    void (*disable_interrupts)(void);
+    void (*enable_interrupts)(void);
+    void (*reset)(void);
+    void (*delay_ms)(uint32_t ms);
+} eer_hal_t;
+
+
+// Global HAL instance - defined by platform implementation
+extern eer_hal_t eer_hal;
