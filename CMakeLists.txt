@@ -10,8 +10,8 @@ endif()
 # Platform-specific source files
 include(toolchain/generic-gcc-${EER_PLATFORM}.cmake)
 
- # Prevent macOS platform-specific flags
-set(PLATFORM_SOURCES src/platforms/${EER_PLATFORM}/gpio.c)
+set(PLATFORM_SOURCES 
+src/platforms/${EER_PLATFORM}/gpio.c)
 
 # Create HAL library
 add_library(eer_hal STATIC ${PLATFORM_SOURCES})
