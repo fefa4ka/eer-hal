@@ -36,3 +36,6 @@ target_compile_options(eer_hal PRIVATE -I${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Add tests directory
 add_subdirectory(tests)
+
+# Make sure the HAL implementation is properly exported
+target_compile_definitions(eer_hal PUBLIC EER_PLATFORM=${EER_PLATFORM})

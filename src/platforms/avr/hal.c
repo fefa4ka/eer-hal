@@ -10,7 +10,8 @@
 #include "platforms/avr/power.h"
 
 // Global HAL instance for AVR platform
-eer_hal_t eer_hal = {
+// Using __attribute__((used)) to prevent the linker from optimizing it out
+eer_hal_t eer_hal __attribute__((used)) = {
     .gpio = &eer_avr_gpio,
     .adc = &eer_avr_adc,
     .uart = &eer_avr_uart,
