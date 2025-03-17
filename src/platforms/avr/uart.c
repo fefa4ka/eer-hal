@@ -238,7 +238,7 @@ static eer_hal_status_t avr_uart_unregister_tx_callback(void) {
     return EER_HAL_OK;
 }
 
-// UART Receive Complete ISR
+// UART Receive Complete ISR - dedicated to UART module
 ISR(USART_RX_vect) {
     uint8_t data = UDR0;
     
@@ -262,7 +262,7 @@ ISR(USART_RX_vect) {
     }
 }
 
-// UART Transmit Complete ISR
+// UART Transmit Complete ISR - dedicated to UART module
 ISR(USART_TX_vect) {
     // Call the handler if registered
     if (uart_callbacks.tx_handler != NULL) {

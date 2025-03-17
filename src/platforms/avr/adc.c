@@ -223,7 +223,7 @@ static eer_hal_status_t avr_adc_unregister_callback(void* channel) {
     return EER_HAL_OK;
 }
 
-// ADC Conversion Complete ISR
+// ADC Conversion Complete ISR - dedicated to ADC module
 ISR(ADC_vect) {
     // Get the current channel from ADMUX
     uint8_t channel = ADMUX & 0x07;

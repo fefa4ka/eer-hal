@@ -27,6 +27,15 @@ typedef union {
     } bytes;
 } atomic_u32_t;
 
+// Use Timer2 for system ticks to avoid conflicts with Timer0/Timer1
+#define SYSTEM_TIMER_TCCRA TCCR2A
+#define SYSTEM_TIMER_TCCRB TCCR2B
+#define SYSTEM_TIMER_OCR   OCR2A
+#define SYSTEM_TIMER_TIMSK TIMSK2
+#define SYSTEM_TIMER_TIFR  TIFR2
+#define SYSTEM_TIMER_OCIE  OCIE2A
+#define SYSTEM_TIMER_OCF   OCF2A
+
 static eer_hal_status_t avr_system_init(void) {
     if (system_initialized) {
         return EER_HAL_OK;
@@ -38,26 +47,26 @@ static eer_hal_status_t avr_system_init(void) {
     system_ticks = 0;
     SREG = sreg;
     
-    // Initialize system tick timer (Timer0)
-    // Configure Timer0 for 1ms overflow
-    TCCR0A = (1 << WGM01);  // CTC mode
-    TCCR0B = 0;  // Stop timer initially
+    // Initialize system tick timer (Timer2)
+    // Configure Timer2 for 1ms overflow
+    SYSTEM_TIMER_TCCRA = (1 << WGM21);  // CTC mode
+    SYSTEM_TIMER_TCCRB = 0;  // Stop timer initially
     
     // Calculate the compare value for 1ms period
     // F_CPU / (prescaler * 1000Hz) - 1
     uint8_t compare_value = (F_CPU / 64 / 1000) - 1;
     
     // Set compare value
-    OCR0A = compare_value;
+    SYSTEM_TIMER_OCR = compare_value;
     
     // Clear any pending interrupts
-    TIFR0 = (1 << OCF0A);
+    SYSTEM_TIMER_TIFR = (1 << SYSTEM_TIMER_OCF);
     
     // Enable compare match interrupt
-    TIMSK0 = (1 << OCIE0A);
+    SYSTEM_TIMER_TIMSK = (1 << SYSTEM_TIMER_OCIE);
     
     // Start timer with prescaler 64
-    TCCR0B = (1 << CS01) | (1 << CS00);
+    SYSTEM_TIMER_TCCRB = (1 << CS22);
     
     // Enable global interrupts
     sei();
@@ -72,13 +81,13 @@ static eer_hal_status_t avr_system_deinit(void) {
     }
     
     // Stop the timer
-    TCCR0B = 0;
+    SYSTEM_TIMER_TCCRB = 0;
     
-    // Disable Timer0 interrupt
-    TIMSK0 &= ~(1 << OCIE0A);
+    // Disable Timer2 interrupt
+    SYSTEM_TIMER_TIMSK &= ~(1 << SYSTEM_TIMER_OCIE);
     
     // Clear any pending interrupts
-    TIFR0 = (1 << OCF0A);
+    SYSTEM_TIMER_TIFR = (1 << SYSTEM_TIMER_OCF);
     
     system_initialized = false;
     return EER_HAL_OK;
@@ -176,8 +185,8 @@ static eer_hal_status_t avr_system_get_uptime_ms(uint32_t* uptime) {
     return EER_HAL_OK;
 }
 
-// Timer0 Compare Match A ISR for system tick
-ISR(TIMER0_COMPA_vect) {
+// Timer2 Compare Match A ISR for system tick
+ISR(TIMER2_COMPA_vect) {
     // Increment the system tick counter
     // This is safe because the ISR cannot be interrupted
     system_ticks++;

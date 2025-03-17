@@ -93,8 +93,8 @@ static eer_hal_status_t avr_power_enable_wakeup_source(eer_wakeup_source_t sourc
             break;
             
         case EER_WAKEUP_TIMER:
-            // Enable Timer/Counter2 overflow interrupt
-            TIMSK2 |= (1 << TOIE2);
+            // Enable Timer/Counter1 overflow interrupt
+            TIMSK1 |= (1 << TOIE1);
             break;
             
         case EER_WAKEUP_WATCHDOG:
@@ -129,8 +129,8 @@ static eer_hal_status_t avr_power_disable_wakeup_source(eer_wakeup_source_t sour
             break;
             
         case EER_WAKEUP_TIMER:
-            // Disable Timer/Counter2 overflow interrupt
-            TIMSK2 &= ~(1 << TOIE2);
+            // Disable Timer/Counter1 overflow interrupt
+            TIMSK1 &= ~(1 << TOIE1);
             break;
             
         case EER_WAKEUP_WATCHDOG:
@@ -213,10 +213,10 @@ ISR(INT1_vect) {
     last_wakeup.pin_or_id = 1;
 }
 
-// Timer/Counter2 Overflow ISR
-ISR(TIMER2_OVF_vect) {
+// Timer/Counter1 Overflow ISR for power management wakeup
+ISR(TIMER1_OVF_vect) {
     last_wakeup.source = EER_WAKEUP_TIMER;
-    last_wakeup.pin_or_id = 2;
+    last_wakeup.pin_or_id = 1;
 }
 
 // Watchdog Timer ISR

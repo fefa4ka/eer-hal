@@ -243,7 +243,7 @@ static eer_hal_status_t avr_spi_unregister_callback(void) {
     return EER_HAL_OK;
 }
 
-// SPI Transfer Complete ISR
+// SPI Transfer Complete ISR - dedicated to SPI module
 ISR(SPI_STC_vect) {
     // This ISR is called when a SPI transfer is complete
     // In interrupt-driven mode, we would handle the transfer here
