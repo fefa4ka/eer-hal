@@ -1,3 +1,4 @@
+#include "eer_hal.h"
 #include "platforms/avr/hal.h"
 #include "platforms/avr/gpio.h"
 #include "platforms/avr/adc.h"

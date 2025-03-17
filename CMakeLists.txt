@@ -31,5 +31,8 @@ target_include_directories(
   eer_hal PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
                  ${CMAKE_CURRENT_SOURCE_DIR}/include/platforms/${EER_PLATFORM})
 
+# Make sure all source files can find the necessary headers
+target_compile_options(eer_hal PRIVATE -I${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 # Add tests directory
 add_subdirectory(tests)
