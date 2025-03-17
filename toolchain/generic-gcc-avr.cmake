@@ -71,12 +71,16 @@ add_definitions(
     -DF_CPU=${F_CPU}
     -DBAUD=${BAUD}
 )
-# mmcu MUST be passed to bot the compiler and linker, this handle the linker
-set(CMAKE_EXE_LINKER_FLAGS -mmcu=${MCU})
+# mmcu MUST be passed to both the compiler and linker
+set(CMAKE_EXE_LINKER_FLAGS "-mmcu=${MCU}")
 
 add_compile_options(
     -mmcu=${MCU} # MCU
     -std=gnu99 # C99 standard
+    -Wall
+    -Wextra
+    -ffunction-sections
+    -fdata-sections
 )
 
  # Find AVR include paths
