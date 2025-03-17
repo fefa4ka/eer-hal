@@ -1,7 +1,7 @@
 #pragma once
 
 #include "eer_hal_gpio.h"
-#include "avr.h"
+#include "avr/io.h"
 
 typedef struct {
     struct {

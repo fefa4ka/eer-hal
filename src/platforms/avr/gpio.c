@@ -1,4 +1,5 @@
 #include "platforms/avr/gpio.h"
+#include <stddef.h>
 
 static eer_hal_status_t avr_gpio_init(void) {
   // AVR doesn't need special initialization

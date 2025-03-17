@@ -17,6 +17,18 @@ set(CMAKE_C_COMPILER ${AVR_CC})
 set(CMAKE_CXX_COMPILER ${AVR_CXX})
 set(CMAKE_ASM_COMPILER ${AVR_CC})
 set(CMAKE_NM ${AVR_NN})
+
+ # Prevent host system flags from being added
+# Empty out all macOS-specific settings
+set(_CMAKE_APPLE_ARCHS_DEFAULT "" CACHE INTERNAL "")
+set(CMAKE_OSX_ARCHITECTURES "" CACHE STRING "Build architectures for macOS" FORCE)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "" CACHE STRING "Minimum macOS version to target" FORCE)
+set(CMAKE_OSX_SYSROOT "" CACHE STRING "The product will be built against the headers and libraries in this SDK" FORCE)
+
+# Prevent automatic detection of these values
+set(_CMAKE_OSX_MACHINE "" CACHE INTERNAL "")
+set(CMAKE_HOST_SYSTEM_PROCESSOR "")
+
 set(AVR 1)
 
 # Builds compiler options
@@ -67,3 +79,20 @@ add_compile_options(
     -std=gnu99 # C99 standard
 )
 
+ # Find AVR include paths
+execute_process(
+    COMMAND avr-gcc -print-search-dirs
+    OUTPUT_VARIABLE AVR_GCC_SEARCH_DIRS
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+string(REGEX MATCH "install: ([^\n]*)" _ ${AVR_GCC_SEARCH_DIRS})
+set(AVR_GCC_INSTALL_DIR ${CMAKE_MATCH_1})
+
+message(STATUS "AVR Install Dir: ${AVR_GCC_INSTALL_DIR}")
+# Add AVR specific include directories
+# FIX: Find a better way to do this
+include_directories(
+    ${AVR_GCC_INSTALL_DIR}/include
+    ${AVR_GCC_INSTALL_DIR}/../../../../../../avr/include
+)

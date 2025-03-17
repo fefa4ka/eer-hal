@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.12)
+project(eer_hal C)
+
+# Determine platform from toolchain or explicit setting
+if(NOT DEFINED EER_PLATFORM)
+  message(FATAL_ERROR "Unknown platform. Please set EER_PLATFORM.")
+  return()
+endif()
+
+# Platform-specific source files
+include(toolchain/generic-gcc-${EER_PLATFORM}.cmake)
+
+ # Prevent macOS platform-specific flags
+set(PLATFORM_SOURCES src/platforms/${EER_PLATFORM}/gpio.c)
+
+# Create HAL library
+add_library(eer_hal STATIC ${PLATFORM_SOURCES})
+
+target_include_directories(
+  eer_hal PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+                 ${CMAKE_CURRENT_SOURCE_DIR}/include/platforms/${EER_PLATFORM})
