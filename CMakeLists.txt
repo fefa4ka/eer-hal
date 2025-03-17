@@ -15,7 +15,8 @@ src/platforms/${EER_PLATFORM}/gpio.c
 src/platforms/${EER_PLATFORM}/adc.c
 src/platforms/${EER_PLATFORM}/uart.c
 src/platforms/${EER_PLATFORM}/timer.c
-src/platforms/${EER_PLATFORM}/spi.c)
+src/platforms/${EER_PLATFORM}/spi.c
+src/platforms/${EER_PLATFORM}/i2c.c)
 
 # Create HAL library
 add_library(eer_hal STATIC ${PLATFORM_SOURCES})
