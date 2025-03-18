@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Add test executables
-add_executable(test_gpio test_gpio.c test_hal.c)
+add_executable(test_gpio test_gpio.c)
 target_link_libraries(test_gpio eer_hal)
 
 # Make sure the test can find the HAL implementation

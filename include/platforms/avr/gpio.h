@@ -13,14 +13,14 @@ typedef struct {
         volatile unsigned char *pin;   /*!< Port Input Register */
     } port;
     unsigned char number;              /*!< Pin number (0-7) */
-} eer_avr_pin_t;
+} eer_pin_t;
 
 /**
  * @brief Macro to create an AVR pin structure
  * @param port Port letter (A, B, C, etc.)
  * @param pin Pin number (0-7)
  */
-#define eer_hw_pin(port, pin)                                                  \
+#define eer_hal_pin(port, pin)                                                  \
     {                                                                          \
         {&DDR##port, &PORT##port, &PIN##port}, pin                             \
     }

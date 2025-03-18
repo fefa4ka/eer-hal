@@ -25,7 +25,7 @@ static eer_hal_status_t avr_gpio_configure(void *pin, eer_gpio_config_t* config)
         return EER_HAL_INVALID_PARAM;
     }
     
-    eer_avr_pin_t *avr_pin = (eer_avr_pin_t *)pin;
+    eer_pin_t *avr_pin = (eer_pin_t *)pin;
     
     switch (config->mode) {
         case EER_GPIO_MODE_INPUT:
@@ -68,7 +68,7 @@ static eer_hal_status_t avr_gpio_write(void *pin, bool state) {
         return EER_HAL_INVALID_PARAM;
     }
     
-    eer_avr_pin_t *avr_pin = (eer_avr_pin_t *)pin;
+    eer_pin_t *avr_pin = (eer_pin_t *)pin;
     
     if (state) {
         bit_set(*(avr_pin->port.port), avr_pin->number);
@@ -84,7 +84,7 @@ static eer_hal_status_t avr_gpio_read(void *pin, bool *state) {
         return EER_HAL_INVALID_PARAM;
     }
     
-    eer_avr_pin_t *avr_pin = (eer_avr_pin_t *)pin;
+    eer_pin_t *avr_pin = (eer_pin_t *)pin;
     
     *state = bit_get(*(avr_pin->port.pin), avr_pin->number);
     
@@ -96,7 +96,7 @@ static eer_hal_status_t avr_gpio_toggle(void *pin) {
         return EER_HAL_INVALID_PARAM;
     }
     
-    eer_avr_pin_t *avr_pin = (eer_avr_pin_t *)pin;
+    eer_pin_t *avr_pin = (eer_pin_t *)pin;
     
     bit_toggle(*(avr_pin->port.port), avr_pin->number);
     
