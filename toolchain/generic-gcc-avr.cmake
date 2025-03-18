@@ -61,7 +61,8 @@ set(MCU atmega328p CACHE STRING "ATMega family MCU")
 # Read avr include/util/setbaud.h for usage
 set(BAUD 9600 CACHE STRING "Baudrate for UART")
 # The programmer to use, read avrdude manual for list
-set(PROG_TYPE usbasp CACHE STRING "AVR programmer")
+set(PROG_TYPE arduino CACHE STRING "AVR programmer")
+set(PROG_PORT /dev/tty.usbmodem* CACHE STRING "Programmer port")
 set(HAL ${MCU})
 
 
@@ -71,6 +72,9 @@ set(E_FUSE 0xfd)
 set(H_FUSE 0xda)
 set(L_FUSE 0xfd)
 set(LOCK_BIT 0xff)
+
+# Find avrdude
+find_program(AVRDUDE avrdude REQUIRED)
 
 # Pass defines to compiler
 add_definitions(
@@ -109,4 +113,32 @@ message(STATUS "AVR Install Dir: ${AVR_GCC_INSTALL_DIR}")
 include_directories(
     ${AVR_GCC_INSTALL_DIR}/include
     ${AVR_GCC_INSTALL_DIR}/../../../../../../avr/include
+)
+
+# Add custom targets for flashing and erasing
+add_custom_target(flash
+    COMMAND ${AVRDUDE} -p ${MCU} -c ${PROG_TYPE} -P ${PROG_PORT} -b 115200 -D -U flash:w:${CMAKE_PROJECT_NAME}.hex:i
+    DEPENDS ${CMAKE_PROJECT_NAME}
+    COMMENT "Flashing ${CMAKE_PROJECT_NAME}.hex to ${MCU} using ${PROG_TYPE}"
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+add_custom_target(erase
+    COMMAND ${AVRDUDE} -p ${MCU} -c ${PROG_TYPE} -P ${PROG_PORT} -e
+    COMMENT "Erasing ${MCU} flash memory"
+)
+
+add_custom_target(fuses
+    COMMAND ${AVRDUDE} -p ${MCU} -c ${PROG_TYPE} -P ${PROG_PORT} -U efuse:w:${E_FUSE}:m -U hfuse:w:${H_FUSE}:m -U lfuse:w:${L_FUSE}:m
+    COMMENT "Setting fuses: E=${E_FUSE}, H=${H_FUSE}, L=${L_FUSE}"
+)
+
+add_custom_target(lock
+    COMMAND ${AVRDUDE} -p ${MCU} -c ${PROG_TYPE} -P ${PROG_PORT} -U lock:w:${LOCK_BIT}:m
+    COMMENT "Setting lock bits to ${LOCK_BIT}"
+)
+
+add_custom_target(read_fuses
+    COMMAND ${AVRDUDE} -p ${MCU} -c ${PROG_TYPE} -P ${PROG_PORT} -U efuse:r:-:h -U hfuse:r:-:h -U lfuse:r:-:h
+    COMMENT "Reading fuses from ${MCU}"
 )

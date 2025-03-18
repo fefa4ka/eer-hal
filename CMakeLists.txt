@@ -39,3 +39,13 @@ add_subdirectory(tests)
 
 # Make sure the HAL implementation is properly exported
 target_compile_definitions(eer_hal PUBLIC EER_PLATFORM=${EER_PLATFORM})
+
+# Generate HEX file for AVR platform
+if(EER_PLATFORM STREQUAL "avr")
+    add_custom_command(
+        TARGET eer_hal
+        POST_BUILD
+        COMMAND ${AVR_OBJCOPY} -O ihex -R .eeprom eer_hal ${CMAKE_BINARY_DIR}/eer_hal.hex
+        COMMENT "Creating HEX file: eer_hal.hex"
+    )
+endif()
